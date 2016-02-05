@@ -3,6 +3,12 @@
 {% block body %}
     <div id="wrapper">
         <div id="container">
+            {% for flash_message in app.session.flashbag.get('notice') %}
+                <div class="flash-notice">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+
             {{ form_start(form) }}
             {{ form_widget(form) }}
             {{ form_end(form) }}

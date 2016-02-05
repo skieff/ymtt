@@ -31,6 +31,9 @@ class DefaultController extends Controller
             $goals      = $this->get('app.util.goal_collection_builder')->build([], $createTask->getEventPrefix());
 
             $apiWrapper->addGoals($createTask->getCounter(), $goals);
+
+            $this->addFlash('notice', 'Goals added.');
+
             return $this->redirectToRoute('homepage');
         }
 
