@@ -1,0 +1,22 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+  app.utils.form_builder:
+    class: AppBundle\Util\FormBuilder
+
+  app.util.api_wrapper:
+      class: AppBundle\Util\ApiWrapper
+      arguments: ['2840c779d0064a87ad71b44439b167df']
+
+  app.goal_template.simple:
+    class: AppBundle\Templates\Simple\Builder
+    tags:
+      - {name: app.goal_template, alias: Simple}
+
+  app.goal_template.two_goals:
+    class: AppBundle\Templates\TwoGoals\Builder
+    tags:
+      - {name: app.goal_template, alias: TwoGoals}
