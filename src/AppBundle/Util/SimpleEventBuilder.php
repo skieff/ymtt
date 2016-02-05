@@ -14,7 +14,7 @@ class SimpleEventBuilder implements GoalBuilderInterface {
     {
         $eventNameTemplate = isset($options[self::EVENT_NAME_TEMPLATE])
             ? $options[self::EVENT_NAME_TEMPLATE]
-            : 'eventName';
+            : '%prefix%Event';
 
         $goalName = isset($options[self::GOAL_NAME]) ? $options[self::GOAL_NAME] : uniqid('Goal-');
 
@@ -22,7 +22,7 @@ class SimpleEventBuilder implements GoalBuilderInterface {
             'name' => $goalName,
             'type' => 'action',
             'conditions' => [
-                ['type' => 'exact', 'url' => sprintf($eventNameTemplate, $prefix)],
+                ['type' => 'exact', 'url' => str_replace('%prefix%', $prefix, $eventNameTemplate)],
             ],
             'class' => 0,
         ];

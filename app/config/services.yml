@@ -1,15 +1,21 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
-#    parameter_name: value
+  app.defaultBuilderOptions:
+    simpleEvent: []
+    multipleEvents:
+      events:
+        - {eventNameTemplate: '%%prefix%%-level1'}
+        - {eventNameTemplate: '%%prefix%%-level2'}
+        - {eventNameTemplate: '%%prefix%%-level3'}
 
 services:
   app.utils.form_builder:
     class: AppBundle\Util\FormBuilder
 
   app.util.api_wrapper:
-      class: AppBundle\Util\ApiWrapper
-      arguments: ['2840c779d0064a87ad71b44439b167df']
+    class: AppBundle\Util\ApiWrapper
+    arguments: ['2840c779d0064a87ad71b44439b167df']
 
   app.goal_template.simple:
     class: AppBundle\Templates\Simple\Builder
@@ -20,3 +26,17 @@ services:
     class: AppBundle\Templates\TwoGoals\Builder
     tags:
       - {name: app.goal_template, alias: TwoGoals}
+
+  app.util.goal_collection_builder:
+    class: AppBundle\Util\GoalCollectionBuilder
+    arguments: ['%app.defaultBuilderOptions%']
+
+  app.util.simple_event_builder:
+    class: AppBundle\Util\SimpleEventBuilder
+    tags:
+      - {name: app.goal_builder, alias: simpleEvent}
+
+  app.util.multiple_event_goal_builder:
+    class: AppBundle\Util\MultipleEventGoalBuilder
+    tags:
+      - {name: app.goal_builder, alias: multipleEvents}

@@ -2,7 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Templates\GoalBuilderInterface;
+use AppBundle\Entity\CreateGoalsTask;
+use AppBundle\Form\Type\CreateGoalsTaskType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,20 +17,21 @@ class DefaultController extends Controller
     {
         $apiWrapper = $this->get('app.util.api_wrapper');
         $counters = $apiWrapper->getCounterList();
-        $formBuilder = $this->get('app.utils.form_builder');
-        $form = $formBuilder->build($this->createFormBuilder(), $counters)->getForm();
+        $form = $this->createForm(
+            CreateGoalsTaskType::class,
+            null,
+            [CreateGoalsTaskType::COUNTER_CHOICES => $counters]
+        );
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            $selectForm = $formBuilder->getSelectForm($form);
-            if ($selectForm->isValid()) {
-                /** @var GoalBuilderInterface $template */
-                $template = $formBuilder->getSelectedTemplateForm($form)->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var CreateGoalsTask $createTask */
+            $createTask = $form->getData();
+            $goals      = $this->get('app.util.goal_collection_builder')->build([], $createTask->getEventPrefix());
 
-                $apiWrapper->addGoals($selectForm->get('counter')->getData(), $template->createGoal());
-            }
-
+            $apiWrapper->addGoals($createTask->getCounter(), $goals);
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('default/index.html.twig', array(

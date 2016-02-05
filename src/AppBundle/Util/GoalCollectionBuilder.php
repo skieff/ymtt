@@ -7,9 +7,20 @@ class GoalCollectionBuilder implements GoalBuilderInterface{
     protected $builders;
 
     /**
+     * @var array
+     */
+    private $defaultOptions;
+
+    public function __construct(array  $defaultOptions = []) {
+        $this->defaultOptions = $defaultOptions;
+    }
+
+    /**
      * @inheritdoc
      */
     public function build(array $options = [], $prefix = '') {
+        $options = array_merge($this->defaultOptions, $options);
+
         $result = new \AppendIterator();
 
         foreach ($options as $builderAlias => $builderOptions) {
@@ -23,7 +34,7 @@ class GoalCollectionBuilder implements GoalBuilderInterface{
      * @param $alias
      * @param GoalBuilderInterface $builder
      */
-    protected function registerBuilder($alias, GoalBuilderInterface $builder) {
+    public function registerBuilder($alias, GoalBuilderInterface $builder) {
         $this->builders[$alias] = $builder;
     }
 

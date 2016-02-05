@@ -8,6 +8,15 @@ class MultipleEventGoalBuilder implements GoalBuilderInterface {
     const EVENT_NAME_TEMPLATE = 'eventNameTemplate';
     const STEP_NAME_TEMPLATE = 'stepNameTemplate';
     const EVENTS = 'events';
+    /**
+     * @var array
+     */
+    private $defaultEventOptions;
+
+    public function __construct(array $defaultEventOptions = [])
+    {
+        $this->defaultEventOptions = $defaultEventOptions;
+    }
 
     /**
      * @param array $options
@@ -41,19 +50,25 @@ class MultipleEventGoalBuilder implements GoalBuilderInterface {
     }
 
     private function buildStep(array $eventOptions, $position, $eventPrefix) {
+        $eventOptions = array_merge($this->defaultEventOptions, $eventOptions);
+
         $eventNameTemplate = isset($eventOptions[self::EVENT_NAME_TEMPLATE])
                 ? $eventOptions[self::EVENT_NAME_TEMPLATE]
-                : '';
+                : 'event%position%';
 
         $stepNameTemplate = isset($eventOptions[self::STEP_NAME_TEMPLATE])
                 ? $eventOptions[self::STEP_NAME_TEMPLATE]
-                : 'step %s';
+                : 'step %position%';
 
         return [
             'name' => str_replace('%position%', $position, $stepNameTemplate),
-            'type' => 'action',
+            'type' => 'url',
             'conditions' => [
-                ['type' => 'exact', 'url' => str_replace('%prefix%', $eventPrefix, $eventNameTemplate)],
+                ['type' => 'action', 'url' => str_replace(
+                    ['%prefix%', '%position%'],
+                    [$eventPrefix, $position],
+                    $eventNameTemplate
+                )],
             ]
         ];
     }
