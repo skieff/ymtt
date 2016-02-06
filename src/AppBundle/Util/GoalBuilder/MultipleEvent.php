@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Util;
+namespace AppBundle\Util\GoalBuilder;
 
 use AppBundle\Entity\CreateGoalsTask;
 use AppBundle\Metrica\Management\Models\Goal;
 
-class MultipleEventGoalBuilder implements GoalBuilderInterface {
+class MultipleEvent implements BuilderInterface {
     const EVENT_NAME_TEMPLATE = 'eventNameTemplate';
     const STEP_NAME_TEMPLATE = 'stepNameTemplate';
     const EVENTS = 'events';

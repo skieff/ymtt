@@ -9,15 +9,15 @@ services:
     arguments: ['%app.api_token%']
 
   app.util.goal_collection_builder:
-    class: AppBundle\Util\GoalCollectionBuilder
+    class: AppBundle\Util\GoalBuilder\Collection
     arguments: ['%app.defaultBuilderOptions%']
 
   app.util.simple_event_builder:
-    class: AppBundle\Util\SimpleEventBuilder
+    class: AppBundle\Util\GoalBuilder\SimpleEvent
     tags:
       - {name: app.goal_builder, alias: simpleEvent}
 
   app.util.multiple_event_goal_builder:
-    class: AppBundle\Util\MultipleEventGoalBuilder
+    class: AppBundle\Util\GoalBuilder\MultipleEvent
     tags:
       - {name: app.goal_builder, alias: multipleEvents}

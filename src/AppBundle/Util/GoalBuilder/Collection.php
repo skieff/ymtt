@@ -1,11 +1,11 @@
 <?php
 
-namespace AppBundle\Util;
+namespace AppBundle\Util\GoalBuilder;
 
 use AppBundle\Entity\CreateGoalsTask;
 
-class GoalCollectionBuilder implements GoalBuilderInterface{
-    /** @var  GoalBuilderInterface */
+class Collection implements BuilderInterface{
+    /** @var  BuilderInterface */
     protected $builders;
 
     /**
@@ -34,15 +34,15 @@ class GoalCollectionBuilder implements GoalBuilderInterface{
 
     /**
      * @param $alias
-     * @param GoalBuilderInterface $builder
+     * @param BuilderInterface $builder
      */
-    public function registerBuilder($alias, GoalBuilderInterface $builder) {
+    public function registerBuilder($alias, BuilderInterface $builder) {
         $this->builders[$alias] = $builder;
     }
 
     /**
      * @param $builderAlias
-     * @return GoalBuilderInterface
+     * @return BuilderInterface
      */
     private function findBuilder($builderAlias) {
         if (!isset($this->builders[$builderAlias])) {
