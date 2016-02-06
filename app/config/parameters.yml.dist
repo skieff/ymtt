@@ -17,3 +17,13 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    app.defaultBuilderOptions:
+        simpleEvent: []
+        multipleEvents:
+            events:
+                - {eventNameTemplate: '%%prefix%%-level1'}
+                - {eventNameTemplate: '%%prefix%%-level2'}
+                - {eventNameTemplate: '%%prefix%%-level3'}
+
+    app.api_token: '' #set real token value

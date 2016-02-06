@@ -1,13 +1,7 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
+
 parameters:
-  app.defaultBuilderOptions:
-    simpleEvent: []
-    multipleEvents:
-      events:
-        - {eventNameTemplate: '%%prefix%%-level1'}
-        - {eventNameTemplate: '%%prefix%%-level2'}
-        - {eventNameTemplate: '%%prefix%%-level3'}
 
 services:
   app.utils.form_builder:
@@ -15,7 +9,7 @@ services:
 
   app.util.api_wrapper:
     class: AppBundle\Util\ApiWrapper
-    arguments: ['2840c779d0064a87ad71b44439b167df']
+    arguments: ['%app.api_token%']
 
   app.goal_template.simple:
     class: AppBundle\Templates\Simple\Builder
