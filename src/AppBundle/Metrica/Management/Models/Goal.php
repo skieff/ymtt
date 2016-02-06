@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * This implementation adds support for multiple steps goals to Yandex\Metrica\Management library.
+ */
+
 namespace AppBundle\Metrica\Management\Models;
 
 use Yandex\Metrica\Management\Models\Goal as YandexGoal;
