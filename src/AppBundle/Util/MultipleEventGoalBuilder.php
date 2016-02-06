@@ -2,6 +2,7 @@
 
 namespace AppBundle\Util;
 
+use AppBundle\Entity\CreateGoalsTask;
 use AppBundle\Metrica\Management\Models\Goal;
 
 class MultipleEventGoalBuilder implements GoalBuilderInterface {
@@ -19,11 +20,9 @@ class MultipleEventGoalBuilder implements GoalBuilderInterface {
     }
 
     /**
-     * @param array $options
-     * @param string $prefix
-     * @return Goal[]|\Iterator
+     * @inheritdoc
      */
-    public function build(array $options = [], $prefix = '')
+    public function build(CreateGoalsTask $createTask, array $options = [])
     {
         if (!isset($options[self::EVENTS])) {
             throw new \RuntimeException(self::EVENTS . ' option is not set.');
@@ -41,7 +40,7 @@ class MultipleEventGoalBuilder implements GoalBuilderInterface {
 
         $position = 1;
         foreach ($options[self::EVENTS] as $eventOptions) {
-            $goalConfig['steps'][] = $this->buildStep($eventOptions, $position++, $prefix);
+            $goalConfig['steps'][] = $this->buildStep($eventOptions, $position++, $createTask->getEventPrefix());
         }
 
         return new \ArrayIterator([

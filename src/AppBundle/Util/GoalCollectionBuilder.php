@@ -2,6 +2,8 @@
 
 namespace AppBundle\Util;
 
+use AppBundle\Entity\CreateGoalsTask;
+
 class GoalCollectionBuilder implements GoalBuilderInterface{
     /** @var  GoalBuilderInterface */
     protected $builders;
@@ -18,13 +20,13 @@ class GoalCollectionBuilder implements GoalBuilderInterface{
     /**
      * @inheritdoc
      */
-    public function build(array $options = [], $prefix = '') {
+    public function build(CreateGoalsTask $createTask, array $options = []) {
         $options = array_merge($this->defaultOptions, $options);
 
         $result = new \AppendIterator();
 
         foreach ($options as $builderAlias => $builderOptions) {
-            $result->append($this->findBuilder($builderAlias)->build($builderOptions, $prefix));
+            $result->append($this->findBuilder($builderAlias)->build($createTask, $builderOptions));
         }
 
         return $result;

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Util;
 
+use AppBundle\Entity\CreateGoalsTask;
 use AppBundle\Metrica\Management\Models\Goal;
 
 class SimpleEventBuilder implements GoalBuilderInterface {
@@ -10,7 +11,7 @@ class SimpleEventBuilder implements GoalBuilderInterface {
     /**
      * @inheritdoc
      */
-    public function build(array $options = [], $prefix = '')
+    public function build(CreateGoalsTask $createTask, array $options = [])
     {
         $eventNameTemplate = isset($options[self::EVENT_NAME_TEMPLATE])
             ? $options[self::EVENT_NAME_TEMPLATE]
@@ -22,7 +23,10 @@ class SimpleEventBuilder implements GoalBuilderInterface {
             'name' => $goalName,
             'type' => 'action',
             'conditions' => [
-                ['type' => 'exact', 'url' => str_replace('%prefix%', $prefix, $eventNameTemplate)],
+                [
+                    'type' => 'exact',
+                    'url' => str_replace('%prefix%', $createTask->getEventPrefix(), $eventNameTemplate)
+                ],
             ],
             'class' => 0,
         ];

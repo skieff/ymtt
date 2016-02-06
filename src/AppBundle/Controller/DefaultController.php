@@ -28,7 +28,7 @@ class DefaultController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var CreateGoalsTask $createTask */
             $createTask = $form->getData();
-            $goals      = $this->get('app.util.goal_collection_builder')->build([], $createTask->getEventPrefix());
+            $goals      = $this->get('app.util.goal_collection_builder')->build($createTask, []);
 
             $apiWrapper->addGoals($createTask->getCounter(), $goals);
 
